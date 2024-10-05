@@ -17,9 +17,12 @@ with open('Resources/Frequency_index.txt', 'r', encoding='utf8') as infile:
 
 full_df = pd.DataFrame.from_dict(full_list).sort_values(by=['freq'],ascending=False).drop_duplicates(subset=['word','freq','ENG'])
 
-def print_by_POS(pos, df=full_df, sort='freq'):
+def print_by_POS(pos, df=full_df, sort='freq', no_sent=False):
     pos_df = conj = full_df[full_df['POS'].str.contains(pos)]
+    col = ['word','ENG','sent']
+    if no_sent == True:
+        col = ['word','ENG']
     if sort == 'freq':
-        return pos_df[['word','ENG','sent']].reset_index(drop=True).style.set_properties(**{'text-align': 'left'})
+        return pos_df[col].reset_index(drop=True).style.set_properties(**{'text-align': 'left'})
     if sort == 'alpha':
-        return pos_df[['word','ENG','sent']].reset_index(drop=True).sort_values(by=['word']).style.set_properties(**{'text-align': 'left'})
+        return pos_df[col].reset_index(drop=True).sort_values(by=['word']).style.set_properties(**{'text-align': 'left'})
